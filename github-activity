@@ -4,15 +4,34 @@
 
 class Activity {
     public $user;
+    public $url;
+    public $token = '';
 
     public function run($argv) {
         $this->setUser($argv[1]);
-
-        echo $this->user;
+        $this->fetchEvents();
     }
 
     public function setUser($user) {
         $this->user = $user;
+        $this->url = 'https://api.github.com/users/' . $this->user . '/events/public';
+    }
+
+    public function fetchEvents() {
+
+        $ch = curl_init($this->url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/vnd.github+json',
+            'Authorization: Bearer ' . $this->token,
+            'X-GitHub-Api-Version: 2022-11-28',
+            'User-Agent: PHP Curl Client'
+        ]);
+
+        $response = curl_exec($ch);
+
+        echo $response;
+
     }
 }
 
