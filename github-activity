@@ -1,0 +1,22 @@
+#!/usr/bin/php
+
+<?php
+
+class Activity {
+    public $user;
+
+    public function run($argv) {
+        $this->setUser($argv[1]);
+
+        echo $this->user;
+    }
+
+    public function setUser($user) {
+        $this->user = $user;
+    }
+}
+
+$app = new Activity();
+$app->run($argv);
+
+?>
